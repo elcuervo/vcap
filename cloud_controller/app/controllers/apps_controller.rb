@@ -99,10 +99,11 @@ class AppsController < ApplicationController
     end
   end
 
-  def download_staged
-    app = App.find_by_id(params[:id])
-    raise CloudError.new(CloudError::APP_NOT_FOUND) unless app && (app.staged_package_hash == params[:hash])
+  def export
+    download_staged_package(@app)
+  end
 
+  def download_staged_package(app)
     path = app.staged_package_path
     if path && File.exists?(path)
       if CloudController.use_nginx
@@ -114,6 +115,12 @@ class AppsController < ApplicationController
     else
       raise CloudError.new(CloudError::APP_NOT_FOUND)
     end
+  end
+
+  def download_staged
+    app = App.find_by_id(params[:id])
+    raise CloudError.new(CloudError::APP_NOT_FOUND) unless app && (app.staged_package_hash == params[:hash])
+    download_staged_package(app)
   end
 
   def crashes

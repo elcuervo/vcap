@@ -22,6 +22,7 @@ CloudController::Application.routes.draw do
   post   'resources'                 => 'resource_pool#match',  :as => :resource_match
   get    'apps/:name/application'    => 'apps#download',        :as => :app_download
   get    'staged_droplets/:id/:hash' => 'apps#download_staged', :as => :app_download_staged
+  get    'apps/:name/export'         => 'apps#export',          :as => :app_export_staged
   get    'apps/:name/instances'      => 'apps#instances',       :as => :app_instances
   get    'apps/:name/stats'          => 'apps#stats',           :as => :app_stats
   get    'apps/:name/update'         => 'apps#check_update'
